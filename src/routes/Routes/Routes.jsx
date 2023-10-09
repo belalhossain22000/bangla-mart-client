@@ -6,6 +6,7 @@ import Order from "../../components/Order/Order";
 import Cart from "../../components/Cart/Cart";
 import CheckOut from "../../components/CheckOut/CheckOut";
 import OrderTracker from "../../components/Order/OrderTracker";
+import ProductDetail from "../../components/ProductDetails/ProductDetail";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: '/women/sweaters',
         element:<Products/>,
+      },
+      {
+        path: '/product-details',
+        element:<ProductDetail/>,
       },
       {
         path: '/order',
