@@ -1,9 +1,10 @@
 
-import { Fragment, useState } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Avatar, Menu, MenuItem } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../Provider/AuthProvider'
 
 
 const navigation = {
@@ -137,6 +138,17 @@ const Navbar = () => {
   const [open, setOpen] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { user, logOut } = useContext(AuthContext);
+
+  // loguot 
+  const handleLogOut = () => {
+    console.log("clicked");
+    logOut()
+      .then(() => {
+        console.log("User logged out");
+      })
+      .catch((error) => console.log(error.message));
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -419,9 +431,9 @@ const Navbar = () => {
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   {
-                    true ? (<>
+                    user ? (<>
                       <div onClick={handleClick} className='cursor-pointer' >
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                        <Avatar alt="profile" src={user.photoURL}/>
                       </div>
                       <Menu
                         anchorEl={anchorEl}
@@ -431,12 +443,12 @@ const Navbar = () => {
                         <MenuItem className='cursor-pointer' onClick={handleClose}>Profile</MenuItem>
                         <Link to="/order">
                         <MenuItem className='cursor-pointer' onClick={handleClose}>My Order</MenuItem></Link>
-                        <MenuItem className='cursor-pointer' onClick={handleClose}>Logout</MenuItem>
+                        <MenuItem  className='cursor-pointer'onClick={() => { handleClose(); logOut(); }}>Logout</MenuItem>
                       </Menu>
 
                     </>
                     ) : (
-                      <Link to="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                      <Link to="register" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                         Sign in
                       </Link>
                     )

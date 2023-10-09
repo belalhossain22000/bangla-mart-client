@@ -7,6 +7,8 @@ import Cart from "../../components/Cart/Cart";
 import CheckOut from "../../components/CheckOut/CheckOut";
 import OrderTracker from "../../components/Order/OrderTracker";
 import ProductDetail from "../../components/ProductDetails/ProductDetail";
+import Register from "../../components/Auth/Register";
+import Login from "../../components/Auth/Login";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -71,6 +73,14 @@ export const router = createBrowserRouter([
       {
         path: '/tracker',
         element:<OrderTracker/>,
+      },
+      {
+        path: '/register',
+        element:<Register/>,
+      },
+      {
+        path: '/login',
+        element:<Login/>,
       },
     ],
   },
