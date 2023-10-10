@@ -443,7 +443,7 @@ const Navbar = () => {
                         <MenuItem className='cursor-pointer' onClick={handleClose}>Profile</MenuItem>
                         <Link to="/order">
                         <MenuItem className='cursor-pointer' onClick={handleClose}>My Order</MenuItem></Link>
-                        <MenuItem  className='cursor-pointer'onClick={() => { handleClose(); logOut(); }}>Logout</MenuItem>
+                        <MenuItem  className='cursor-pointer'onClick={() => { handleClose(); handleLogOut(); }}>Logout</MenuItem>
                       </Menu>
 
                     </>
@@ -461,6 +461,13 @@ const Navbar = () => {
                   <Link to="#" className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+                  </Link>
+                </div>
+                {/* dashbord */}
+                <div className="flex lg:ml-6">
+                  <Link to="dashboard" className="p-2 text-gray-400 hover:text-gray-500">
+                    <span className="sr-only">Dashboard</span>
+                   Dashboard
                   </Link>
                 </div>
 

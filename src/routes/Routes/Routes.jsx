@@ -9,6 +9,9 @@ import OrderTracker from "../../components/Order/OrderTracker";
 import ProductDetail from "../../components/ProductDetails/ProductDetail";
 import Register from "../../components/Auth/Register";
 import Login from "../../components/Auth/Login";
+import DashbordLayout from "../../Dashbord/Layout/DashbordLayout";
+import DashboardProducts from "../../Dashbord/components/Products/DashboardProducts";
+import Dashbord from "../../Dashbord/components/Dashbord/Dashbord";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -84,4 +87,18 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:"/dashboard",
+    element:<DashbordLayout/>,
+    children:[
+      {
+        path:"/dashboard",
+        element:<Dashbord/>
+      },
+      {
+        path:"/dashboard/products",
+        element:<DashboardProducts/>
+      }
+    ]
+  }
 ]);
