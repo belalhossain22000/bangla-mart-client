@@ -465,7 +465,7 @@ const Navbar = () => {
                 </div>
                 {/* dashbord */}
                 <div className="flex lg:ml-6">
-                  <Link to="dashboard" className="p-2 text-gray-400 hover:text-gray-500">
+                  <Link to="/dashboard" className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Dashboard</span>
                    Dashboard
                   </Link>
