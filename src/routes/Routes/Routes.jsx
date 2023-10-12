@@ -12,6 +12,7 @@ import Login from "../../components/Auth/Login";
 import DashbordLayout from "../../Dashbord/Layout/DashbordLayout";
 import DashboardProducts from "../../Dashbord/components/Products/DashboardProducts";
 import Dashbord from "../../Dashbord/components/Dashbord/Dashbord";
+import Users from "../../Dashbord/components/Users/Users";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
       {
         path:"/dashboard/products",
         element:<DashboardProducts/>
+      },
+      {
+        path:"/dashboard/users",
+        element:<Users/>
       }
     ]
   }

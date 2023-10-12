@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.0.18",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.11",
+    "@mui/x-data-grid": "^6.16.2",
     "@reduxjs/toolkit": "^1.9.6",
     "firebase": "^10.4.0",
     "localforage": "^1.10.0",
