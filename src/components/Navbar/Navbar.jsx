@@ -4,7 +4,7 @@ import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Avatar, Menu, MenuItem } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../Provider/AuthProvider'
+import { AuthContext } from '../../provider/AuthProvider'
 
 
 const navigation = {
