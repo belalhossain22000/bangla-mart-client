@@ -10,9 +10,11 @@ import ProductDetail from "../../components/ProductDetails/ProductDetail";
 import Register from "../../components/Auth/Register";
 import Login from "../../components/Auth/Login";
 import DashbordLayout from "../../Dashbord/Layout/DashbordLayout";
-import DashboardProducts from "../../Dashbord/components/Products/DashboardProducts";
+import DashboardProducts from "../../Dashbord/components/DashBoardProducts/DashboardProducts";
 import Dashbord from "../../Dashbord/components/Dashbord/Dashbord";
 import Users from "../../Dashbord/components/Users/Users";
+import DashBoardOrders from "../../Dashbord/components/DashBoardOrders/DashBoardOrders";
+import AddProducts from "../../Dashbord/components/AddProducts/AddProducts";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -103,6 +105,18 @@ export const router = createBrowserRouter([
       {
         path:"/dashboard/users",
         element:<Users/>
+      },
+      {
+        path:"/dashboard/products",
+        element:<DashboardProducts/>
+      },
+      {
+        path:"/dashboard/orders",
+        element:<DashBoardOrders/>
+      },
+      {
+        path:"/dashboard/add",
+        element:<AddProducts/>
       }
     ]
   }

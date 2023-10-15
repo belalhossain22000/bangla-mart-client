@@ -1,8 +1,11 @@
 import React from 'react'
+import DataTable from '../DataTable/DataTable'
 
 const DashboardProducts = () => {
   return (
-    <div>DashboardProducts</div>
+    <div>
+      <DataTable/>
+    </div>
   )
 }
 

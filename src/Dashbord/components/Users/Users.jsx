@@ -1,9 +1,10 @@
 import React from 'react';
+import DataTable from '../DataTable/DataTable';
 
 const Users = () => {
     return (
         <div>
-            users
+            <DataTable/>
         </div>
     );
 };

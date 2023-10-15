@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* AddProductsForm.css */
+.green-outline:focus {
+  @apply ring-green-500;
+}

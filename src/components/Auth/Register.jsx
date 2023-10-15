@@ -1,10 +1,10 @@
 
 import { useContext, useState } from 'react';
 import { useForm, FormProvider, useWatch } from 'react-hook-form';
-import { AuthContext } from '../../Provider/AuthProvider';
 import { updateProfile } from 'firebase/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../provider/AuthProvider';
 
 function Register() {
     const methods = useForm();
