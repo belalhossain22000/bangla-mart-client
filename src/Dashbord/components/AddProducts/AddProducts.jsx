@@ -4,6 +4,7 @@ import AddProductsForm from './AddProductsForm'
 const AddProducts = () => {
   return (
     <div>
+     
         <AddProductsForm/>
     </div>
   )
