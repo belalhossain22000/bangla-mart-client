@@ -68,9 +68,9 @@ function classNames(...classes) {
 
 const ProductDetail = () => {
     const { id: _id } = useParams()
-    console.log(_id)
+    // console.log(_id)
     const { data, isLoading } = useGetProductByIdQuery(_id)
-    console.log(data)
+    // console.log(data)
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
     if (isLoading) {
         return <Loader />
@@ -112,16 +112,16 @@ const ProductDetail = () => {
                     <div className="flex items-center flex-col">
                         <div className="overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]">
                             <img
-                                src={product.images[0].src}
-                                alt={product.images[0].alt}
+                                src={data?.imageUrl}
+                                alt={data?.title}
                                 className="h-full w-full object-cover object-center"
                             />
                         </div>
                         <div className="flex flex-wrap space-x-5 justify-center">
-                            {product.images.map((item, index) => <div key={index} className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
+                            {[1,1,]?.map((item, index) => <div key={index} className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
                                 <img
-                                    src={item.src}
-                                    alt={item.alt}
+                                    src={data.imageUrl}
+                                    alt={data?.title}
                                     className="h-full w-full object-cover object-center"
                                 />
                             </div>)}
@@ -169,14 +169,14 @@ const ProductDetail = () => {
                                     <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                                         <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                                         <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                                            {data?.sizes?.map((size) => (
+                                            {product.sizes.map((size) => (
                                                 <RadioGroup.Option
                                                     key={size.name}
                                                     value={size}
-                                                    disabled={size.quantity==0}
+                                                    disabled={!size.inStock}
                                                     className={({ active }) =>
                                                         classNames(
-                                                            size.quantity
+                                                            size.inStock
                                                                 ? 'cursor-pointer bg-white text-gray-900 shadow-sm'
                                                                 : 'cursor-not-allowed bg-gray-50 text-gray-200',
                                                             active ? 'ring-2 ring-indigo-500' : '',
@@ -187,7 +187,7 @@ const ProductDetail = () => {
                                                     {({ active, checked }) => (
                                                         <>
                                                             <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                                                            {size.quantity ? (
+                                                            {size.inStock ? (
                                                                 <span
                                                                     className={classNames(
                                                                         active ? 'border' : 'border-2',
