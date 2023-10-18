@@ -3,8 +3,9 @@ import './ProductCard.css'
 import { Link } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
+    // console.log(product)
     return (
-        <Link to="/product-details">
+        <Link to={`/product-details/${product._id}`}>
             <div className='productCard w-[15rem] m-3 transition-all cursor-pointer rounded-md'>
                 <div className='h-[20rem]'>
                     <img className='h-full w-full object-cover object-left-top rounded-md' src={product.imageUrl} alt="" />

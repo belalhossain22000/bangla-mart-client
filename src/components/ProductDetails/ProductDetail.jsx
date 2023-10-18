@@ -6,6 +6,9 @@ import { Box, Button, Grid, LinearProgress, Rating } from '@mui/material'
 import ProductReview from './ProductReview'
 import { mens_shirt } from '../ProductCarusel/mens-shirt'
 import HomeProductCard from '../HomeProudctCard/HomeProductCard'
+import { useGetProductByIdQuery } from '../../redux/api/productsApi'
+import { useParams } from 'react-router-dom'
+import Loader from '../Loader/Loader'
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -64,9 +67,14 @@ function classNames(...classes) {
 }
 
 const ProductDetail = () => {
-
+    const { id: _id } = useParams()
+    console.log(_id)
+    const { data, isLoading } = useGetProductByIdQuery(_id)
+    console.log(data)
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
-
+    if (isLoading) {
+        return <Loader />
+    }
     return (
         <div className="bg-white container mx-auto">
             <div className="pt-6">
@@ -125,17 +133,17 @@ const ProductDetail = () => {
                     {/* Product info */}
                     <div className="lg:col-span-1 max-auto max-2xl lg:max-w-7xl">
                         <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">UnivesalOutfit</h1>
-                            <h1 className="text-lg font-bold tracking-tight text-gray-900 sm:text-md opacity-60 py-2">Casual puff sleveless  solid women white top</h1>
+                            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{data.brand}</h1>
+                            <h1 className="text-lg font-bold tracking-tight text-gray-900 sm:text-md opacity-60 py-2">{data.title}</h1>
                         </div>
 
                         {/* Options */}
                         <div className="mt-4 lg:row-span-3 lg:mt-0">
                             <h2 className="sr-only">Product information</h2>
                             <div className='flex items-center space-x-2 lg:text-xl mt-4'>
-                                <p className='font-semibold'>$ 500</p>
-                                <p className='line-through opacity-60'>$ 800</p>
-                                <p className='text-green-600 font-semibold'>30 % off</p>
+                                <p className='font-semibold'>{data.discountedPrice}</p>
+                                <p className='line-through opacity-60'>{data.price}</p>
+                                <p className='text-green-600 font-semibold'>{data.discountPersent} % off</p>
                             </div>
 
                             {/* Reviews */}
@@ -161,14 +169,14 @@ const ProductDetail = () => {
                                     <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                                         <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                                         <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                                            {product.sizes.map((size) => (
+                                            {data?.sizes?.map((size) => (
                                                 <RadioGroup.Option
                                                     key={size.name}
                                                     value={size}
-                                                    disabled={!size.inStock}
+                                                    disabled={size.quantity==0}
                                                     className={({ active }) =>
                                                         classNames(
-                                                            size.inStock
+                                                            size.quantity
                                                                 ? 'cursor-pointer bg-white text-gray-900 shadow-sm'
                                                                 : 'cursor-not-allowed bg-gray-50 text-gray-200',
                                                             active ? 'ring-2 ring-indigo-500' : '',
@@ -179,7 +187,7 @@ const ProductDetail = () => {
                                                     {({ active, checked }) => (
                                                         <>
                                                             <RadioGroup.Label as="span">{size.name}</RadioGroup.Label>
-                                                            {size.inStock ? (
+                                                            {size.quantity ? (
                                                                 <span
                                                                     className={classNames(
                                                                         active ? 'border' : 'border-2',
@@ -277,7 +285,7 @@ const ProductDetail = () => {
                                     </div>
                                 </div>
                                 <Box className="space-y-5 mt-5">
-                                    <Grid container  gap={2} className='flex items-center '>
+                                    <Grid container gap={2} className='flex items-center '>
                                         <Grid item xs={2}>
                                             <p>Excellent</p>
                                         </Grid>
@@ -288,7 +296,7 @@ const ProductDetail = () => {
                                             <p className='text-gray-800 opacity-80'  >1934</p>
                                         </Grid>
                                     </Grid>
-                                    <Grid container  gap={2} className='flex items-center '>
+                                    <Grid container gap={2} className='flex items-center '>
                                         <Grid item xs={2}>
                                             <p>Very Good</p>
                                         </Grid>
@@ -299,7 +307,7 @@ const ProductDetail = () => {
                                             <p className='text-gray-800 opacity-80'  >1934</p>
                                         </Grid>
                                     </Grid>
-                                    <Grid container  gap={2} className='flex items-center '>
+                                    <Grid container gap={2} className='flex items-center '>
                                         <Grid item xs={2}>
                                             <p>Good</p>
                                         </Grid>
@@ -310,7 +318,7 @@ const ProductDetail = () => {
                                             <p className='text-gray-800 opacity-80'  >1934</p>
                                         </Grid>
                                     </Grid>
-                                    <Grid container  gap={2} className='flex items-center '>
+                                    <Grid container gap={2} className='flex items-center '>
                                         <Grid item xs={2}>
                                             <p>Avarage</p>
                                         </Grid>
@@ -321,7 +329,7 @@ const ProductDetail = () => {
                                             <p className='text-gray-800 opacity-80'  >1934</p>
                                         </Grid>
                                     </Grid>
-                                    <Grid container  gap={2} className='flex items-center '>
+                                    <Grid container gap={2} className='flex items-center '>
                                         <Grid item xs={2}>
                                             <p>Poor</p>
                                         </Grid>
@@ -346,7 +354,7 @@ const ProductDetail = () => {
                     <div className='bg-gray-800 h-[1px] opacity-60 mt-5'></div>
                     <div className='flex flex-wrap my-10 gap-x-5 gap-y-10'>
                         {
-                            mens_shirt?.map((item,index)=><HomeProductCard key={index} item={item}/>)
+                            mens_shirt?.map((item, index) => <HomeProductCard key={index} item={item} />)
                         }
                     </div>
 

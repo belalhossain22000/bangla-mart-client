@@ -3,11 +3,12 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import { mens_shirt } from '../ProductCarusel/mens-shirt'
 import ProductCard from './ProductCard'
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useGetProductsQuery } from '../../redux/api/productsApi'
+import Loader from '../Loader/Loader'
 const sortOptions = [
   { name: 'Price: Low to High', href: '#', current: false },
   { name: 'Price: High to Low', href: '#', current: false },
@@ -91,6 +92,8 @@ function classNames(...classes) {
 
 export default function Products() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const { data, isLoading } = useGetProductsQuery()
+
   const location = useLocation()
   const navigate = useNavigate
   const handleFilter = (value, sectionId) => {
@@ -114,6 +117,11 @@ export default function Products() {
     console.log(query)
     navigate({ search: `?${query}` })
   }
+
+  if(isLoading){
+    return<Loader/>
+  }
+
   return (
     <div className="bg-white container mx-auto">
       <div>
@@ -373,7 +381,7 @@ export default function Products() {
                 <div className='fle grid grid-cols-4 flex-wrap justify-center bg-white py-5'>
 
                   {
-                    mens_shirt.map((item, index) => <ProductCard key={index} product={item} />)
+                    data?.map((item, index) => <ProductCard key={index} product={item} />)
                   }
                 </div>
               </div>

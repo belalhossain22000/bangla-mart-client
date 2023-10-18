@@ -7,7 +7,7 @@ import Loader from '../../components/Loader/Loader'
 
 const Home = () => {
     const { data, isLoading } = useGetProductsQuery()
-    console.log(data)
+    // console.log(data)
 if(isLoading){
     return <Loader/>
 }

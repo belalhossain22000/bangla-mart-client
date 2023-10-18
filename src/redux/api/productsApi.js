@@ -9,8 +9,8 @@ export const taskApi = baseApi.injectEndpoints({
       providesTags: ["products"],
     }),
     //get task by id
-    getTasksById: builder.query({
-      query: (_id) => `/getTask/${_id}`,
+    getProductById: builder.query({
+      query: (_id) => `/getProduct/${_id}`,
     }),
 
     // post task
@@ -44,7 +44,7 @@ export const taskApi = baseApi.injectEndpoints({
 
 export const {
   useGetProductsQuery,
-  useGetTasksByIdQuery,
+  useGetProductByIdQuery,
   usePostTasksMutation,
   useDeleteTasksMutation,
   useUpdateTasksMutation,
