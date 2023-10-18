@@ -1,29 +1,26 @@
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, } from '@mui/material'
 
-
-import { Link } from 'react-router-dom'
-
 const AddProductsForm = () => {
 
-
-
-
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const address = {
-      imageUrl: data.get("fastName"),
-      brand: data.get("lastName"),
-      title: data.get("address"),
-      color: data.get("city"),
-      quantity: data.get("village"),
-      price: data.get("postCode"),
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const productsData = {
+      imageUrl: data.get("imageUrl"),
+      brand: data.get("brand"),
+      title: data.get("title"),
+      color: data.get("color"),
+      quantity: data.get("quantity"),
+      price: data.get("price"),
       discountedPrice: data.get("discountedPrice"),
-      discountedPercentage: data.get("discountPercentage"),
-
-    }
-    console.log('first', address)
-  }
+      discountPercentage: data.get("discountPercentage"),
+      topLevelCategory: data.get("topLevelCategory"),
+      secondLevelCategory: data.get("secondLevelCategory"),
+      thirdLevelCategory: data.get("thirdLevelCategory"),
+      description: data.get("description"),
+    };
+    console.log('Form Data', productsData);
+  };
   return (
     <div className='py-16 container mx-auto bg-white'>
       <h1 className="text-4xl font-semibold text-center pb-5">Add a Product</h1>
@@ -116,49 +113,46 @@ const AddProductsForm = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
-                    <InputLabel id="topLableCategory">Top Level Category</InputLabel>
+                    <InputLabel id="topLevelCategory">Top Level Category</InputLabel>
                     <Select
-                      labelId="topLableCategory"
-                      id="topLevel"
-                      // value={age}
+                      labelId="topLevelCategory"
+                      id="topLevelCategory"
+                      name="topLevelCategory"
                       label="Top Level Category"
-                    // onChange={handleChange}
                     >
-                      <MenuItem value={10}>Men</MenuItem>
-                      <MenuItem value={20}>Women</MenuItem>
-                      <MenuItem value={30}>Third</MenuItem>
+                      <MenuItem value="men">Men</MenuItem>
+                      <MenuItem value="women">Women</MenuItem>
+                      <MenuItem value="third">Third</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
-                    <InputLabel id="topLableCategory">Top Level Category</InputLabel>
+                    <InputLabel id="secondLevelCategory">Second Level Category</InputLabel>
                     <Select
-                      labelId="topLableCategory"
-                      id="topLevel"
-                      // value={age}
-                      label="Top Level Category"
-                    // onChange={handleChange}
+                      labelId="secondLevelCategory"
+                      id="secondLevelCategory"
+                      name="secondLevelCategory"
+                      label="Second Level Category"
                     >
-                      <MenuItem value={10}>Men</MenuItem>
-                      <MenuItem value={20}>Women</MenuItem>
-                      <MenuItem value={30}>Third</MenuItem>
+                      <MenuItem value="clothing">Clothing</MenuItem>
+                      <MenuItem value="accessories">Accessories</MenuItem>
+                      <MenuItem value="brands">Brands</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
-                    <InputLabel id="topLableCategory">Top Level Category</InputLabel>
+                    <InputLabel id="thirdLevelCategory">Third Level Category</InputLabel>
                     <Select
-                      labelId="topLableCategory"
-                      id="topLevel"
-                      // value={age}
-                      label="Top Level Category"
-                    // onChange={handleChange}
+                      labelId="thirdLevelCategory"
+                      id="thirdLevelCategory"
+                      name="thirdLevelCategory"
+                      label="Third Level Category"
                     >
-                      <MenuItem value={10}>Men</MenuItem>
-                      <MenuItem value={20}>Women</MenuItem>
-                      <MenuItem value={30}>Third</MenuItem>
+                      <MenuItem value="tops">Tops</MenuItem>
+                      <MenuItem value="t-shirt">T-shirt</MenuItem>
+                      <MenuItem value="shirt">Shirt</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -174,69 +168,9 @@ const AddProductsForm = () => {
                     rows={3}
                   />
                 </Grid>
-                <Grid item xs={12} md={6} >
-                  <TextField
-                    required
-                    id='s'
-                    name="s"
-                    label='S'
-                    fullWidth
-                    autoComplete='given Name'
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} >
-                  <TextField
-                    required
-                    id='quantity'
-                    name="quantity"
-                    label='Quantity'
-                    fullWidth
-                    autoComplete='given Name'
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} >
-                  <TextField
-                    required
-                    id='m'
-                    name="m"
-                    label='M'
-                    fullWidth
-                    autoComplete='given Name'
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} >
-                  <TextField
-                    required
-                    id='quantity'
-                    name="quantity"
-                    label='Quantity'
-                    fullWidth
-                    autoComplete='given Name'
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} >
-                  <TextField
-                    required
-                    id='l'
-                    name="l"
-                    label='L'
-                    fullWidth
-                    autoComplete='given Name'
-                  />
-                </Grid>
-                <Grid item xs={12} md={6} >
-                  <TextField
-                    required
-                    id='quantity'
-                    name="quantity"
-                    label='Quantity'
-                    fullWidth
-                    autoComplete='given Name'
-                  />
-                </Grid>
-
                 <Grid item xs={12} >
-                  <Button  type='submit' className='w-full py-3' sx={{ bgcolor: "purple", mt: 2, py: "20px" }} variant='contained' type='submit'> Add Product </Button>
+                  <Button type='submit' className='w-full py-3' sx={{ bgcolor: "purple", mt: 2, py: 3 }} variant='contained'>Add Product</Button>
+
                 </Grid>
               </Grid>
             </form>
