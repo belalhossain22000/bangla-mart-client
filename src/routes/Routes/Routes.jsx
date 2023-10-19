@@ -29,15 +29,19 @@ export const router = createBrowserRouter([
         element:<Products/>,
       },
       {
-        path: '/top',
+        path: '/mens/top',
         element:<Products/>,
       },
       {
-        path: '/pants',
+        path: '/mens/pants',
         element:<Products/>,
       },
       {
-        path: '/sweaters',
+        path: '/mens/punjabi',
+        element:<Products/>,
+      },
+      {
+        path: '/mens/shirts',
         element:<Products/>,
       },
       {
@@ -53,7 +57,7 @@ export const router = createBrowserRouter([
         element:<Products/>,
       },
       {
-        path: '/women/denim',
+        path: '/women/Lehenga',
         element:<Products/>,
       },
       {

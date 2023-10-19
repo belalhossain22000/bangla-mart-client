@@ -6,7 +6,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from
 import ProductCard from './ProductCard'
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useGetProductsQuery } from '../../redux/api/productsApi'
 import Loader from '../Loader/Loader'
 const sortOptions = [
@@ -92,38 +92,25 @@ function classNames(...classes) {
 
 export default function Products() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const { data, isLoading } = useGetProductsQuery()
-
   const location = useLocation()
-  const navigate = useNavigate
-  const handleFilter = (value, sectionId) => {
-    // console.log(value, sectionId)
-    const searchPrams = new URLSearchParams(location.search)
-    let filterValue = searchPrams.getAll(sectionId)
-    if (filterValue.length > 0 && filterValue[0].split(",").includes(value)) {
-      filterValue = filterValue[0].split(',').filter(item => item !== value)
-      if (filterValue.length === 0) {
-        searchPrams.delete(sectionId)
-      }
-    }
-    else {
-      filterValue.push(value)
-    }
-    if (filterValue.length > 0) {
-      searchPrams.set(sectionId, filterValue.join(","))
+  const { pathname } = location
+  console.log(location)
+  const { data, isLoading } = useGetProductsQuery()
+  const shirt = data?.filter(item => item.thirdLavelCategory == "shirt");
+  const jeans = data?.filter(item => item.thirdLavelCategory == "men_jeans");
+  const punjabi = data?.filter(item => item.thirdLavelCategory == "mens_kurta");
+  const womenDress = data?.filter(item => item.thirdLavelCategory == "women_dress");
+  const tops = data?.filter(item => item.thirdLavelCategory == "top");
+  const womenJeans = data?.filter(item => item.thirdLavelCategory == "women_jeans");
+  const lenghaCholi = data?.filter(item => item.thirdLavelCategory == "lengha_choli");
 
-    }
-    const query = searchPrams.toString()
-    console.log(query)
-    navigate({ search: `?${query}` })
-  }
 
-  if(isLoading){
-    return<Loader/>
+  if (isLoading) {
+    return <Loader />
   }
 
   return (
-    <div className="bg-white container mx-auto">
+    <div className="bg-white container mx-auto overflow-x-hidden">
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
@@ -311,7 +298,6 @@ export default function Products() {
                             {section.options.map((option, optionIdx) => (
                               <div key={option.value} className="flex items-center">
                                 <input
-                                  onChange={() => handleFilter(option.value, section.id)}
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
@@ -378,12 +364,27 @@ export default function Products() {
 
               {/* Product grid */}
               <div className="lg:col-span-4">
-                <div className='fle grid grid-cols-4 flex-wrap justify-center bg-white py-5'>
-
-                  {
-                    data?.map((item, index) => <ProductCard key={index} product={item} />)
+                <div className='flex grid grid-cols-4 flex-wrap justify-center bg-white py-5'>
+                  {pathname === '/women/tops'
+                    ? tops.map((item, index) => <ProductCard key={index} product={item} />)
+                    : pathname === '/women/dress'
+                      ? womenDress?.map((item, index) => <ProductCard key={index} product={item} />)
+                      : pathname === '/women/pants'
+                        ? womenJeans?.map((item, index) => <ProductCard key={index} product={item} />)
+                        : pathname === '/women/Lehenga'
+                          ? lenghaCholi?.map((item, index) => <ProductCard key={index} product={item} />)
+                          : pathname === '/mens/top'
+                            ? punjabi?.map((item, index) => <ProductCard key={index} product={item} />)
+                            : pathname === '/mens/pants'
+                              ? jeans?.map((item, index) => <ProductCard key={index} product={item} />)
+                              : pathname === '/mens/punjabi'
+                                ? punjabi?.map((item, index) => <ProductCard key={index} product={item} />)
+                                : pathname === '/mens/shirts'
+                                  ? shirt?.map((item, index) => <ProductCard key={index} product={item} />)
+                                  : data.map((item, index) => <ProductCard key={index} product={item} />)
                   }
                 </div>
+
               </div>
             </div>
           </section>
@@ -392,3 +393,4 @@ export default function Products() {
     </div>
   )
 }
+//a=3?3
