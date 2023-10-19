@@ -4,9 +4,8 @@ import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { Box, Button, Grid, LinearProgress, Rating } from '@mui/material'
 import ProductReview from './ProductReview'
-import { mens_shirt } from '../ProductCarusel/mens-shirt'
 import HomeProductCard from '../HomeProudctCard/HomeProductCard'
-import { useGetProductByIdQuery } from '../../redux/api/productsApi'
+import { useGetProductByIdQuery, useGetProductsQuery } from '../../redux/api/productsApi'
 import { useParams } from 'react-router-dom'
 import Loader from '../Loader/Loader'
 
@@ -69,7 +68,11 @@ function classNames(...classes) {
 const ProductDetail = () => {
     const { id: _id } = useParams()
     // console.log(_id)
+    const { data:items} = useGetProductsQuery()
+
     const { data, isLoading } = useGetProductByIdQuery(_id)
+
+    const similiarProducts= items.filter(item=>item?.thirdLavelCategory==data?.thirdLavelCategory)
     // console.log(data)
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
     if (isLoading) {
@@ -354,7 +357,7 @@ const ProductDetail = () => {
                     <div className='bg-gray-800 h-[1px] opacity-60 mt-5'></div>
                     <div className='flex flex-wrap my-10 gap-x-5 gap-y-10'>
                         {
-                            mens_shirt?.map((item, index) => <HomeProductCard key={index} item={item} />)
+                           similiarProducts?.map((item, index) => <HomeProductCard key={index} item={item} />)
                         }
                     </div>
 

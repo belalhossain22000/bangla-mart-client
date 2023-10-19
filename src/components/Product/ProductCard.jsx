@@ -4,8 +4,15 @@ import { Link } from 'react-router-dom'
 
 const ProductCard = ({ product }) => {
     // console.log(product)
+    function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth', 
+        });
+      }
+    
     return (
-        <Link to={`/product-details/${product._id}`}>
+        <Link to={`/product-details/${product._id}`} onClick={() => scrollToTop()}>
             <div className='productCard w-[15rem] m-3 transition-all cursor-pointer rounded-md'>
                 <div className='h-[20rem]'>
                     <img className='h-full w-full object-cover object-left-top rounded-md' src={product.imageUrl} alt="" />
