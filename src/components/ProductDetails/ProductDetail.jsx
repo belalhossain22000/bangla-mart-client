@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import { RadioGroup } from '@headlessui/react'
 import { Box, Button, Grid, LinearProgress, Rating } from '@mui/material'
@@ -8,6 +8,8 @@ import HomeProductCard from '../HomeProudctCard/HomeProductCard'
 import { useGetProductByIdQuery, useGetProductsQuery } from '../../redux/api/productsApi'
 import { useParams } from 'react-router-dom'
 import Loader from '../Loader/Loader'
+import { usePostCartsMutation } from '../../redux/api/cartApi'
+import { AuthContext } from '../../provider/AuthProvider'
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -66,19 +68,38 @@ function classNames(...classes) {
 }
 
 const ProductDetail = () => {
+    const { user } = useContext(AuthContext);
+    console.log(user)
     const { id: _id } = useParams()
-    // console.log(_id)
-    const { data:items} = useGetProductsQuery()
+
+    const { data: items } = useGetProductsQuery()
+
+    const [selectedSize, setSelectedSize] = useState(product.sizes[2])
 
     const { data, isLoading } = useGetProductByIdQuery(_id)
-
-    const similiarProducts= items.filter(item=>item?.thirdLavelCategory==data?.thirdLavelCategory)
-    // console.log(data)
-    const [selectedSize, setSelectedSize] = useState(product.sizes[2])
-    console.log(selectedSize)
+    console.log(data)
+    const [postCarts, { isLoading: loading, }] = usePostCartsMutation()
+    // loader
     if (isLoading) {
         return <Loader />
     }
+    const similiarProducts = items?.filter(item => item?.thirdLavelCategory == data?.thirdLavelCategory)
+
+    const cartItem = {
+        ...data,
+        productId: data?._id,
+        quantity: 1,
+        selectedSize: selectedSize,
+        userEmail: user?.email,
+    }
+
+    const addToCart = (e) => {
+        e.preventDefault();
+        postCarts(cartItem)
+        // alert("added product")
+
+    }
+
     return (
         <div className="bg-white container mx-auto">
             <div className="pt-6">
@@ -122,7 +143,7 @@ const ProductDetail = () => {
                             />
                         </div>
                         <div className="flex flex-wrap space-x-5 justify-center">
-                            {[1,1,]?.map((item, index) => <div key={index} className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
+                            {[1, 1,]?.map((item, index) => <div key={index} className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg max-w-[5rem] max-h-[5rem] mt-4">
                                 <img
                                     src={data.imageUrl}
                                     alt={data?.title}
@@ -224,11 +245,12 @@ const ProductDetail = () => {
                                 </div>
 
                                 <Button
+                                    type='submit'
+                                    onClick={addToCart}
                                     variant='contained' sx={{ py: "1rem", px: "2rem", bgcolor: 'purple', width: "100%", my: "20px" }}
-                                  
-
                                 >
-                                    Add to Cart
+                                    {loading ? "Adding" : " Add to Cart"}
+
                                 </Button>
                             </form>
                         </div>
@@ -358,7 +380,7 @@ const ProductDetail = () => {
                     <div className='bg-gray-800 h-[1px] opacity-60 mt-5'></div>
                     <div className='flex flex-wrap my-10 gap-x-5 gap-y-10'>
                         {
-                           similiarProducts?.map((item, index) => <HomeProductCard key={index} item={item} />)
+                            similiarProducts?.map((item, index) => <HomeProductCard key={index} item={item} />)
                         }
                     </div>
 
