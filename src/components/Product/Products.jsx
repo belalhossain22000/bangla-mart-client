@@ -96,13 +96,13 @@ export default function Products() {
   const { pathname } = location
   console.log(location)
   const { data, isLoading } = useGetProductsQuery()
-  const shirt = data?.filter(item => item.thirdLavelCategory == "shirt");
-  const jeans = data?.filter(item => item.thirdLavelCategory == "men_jeans");
-  const punjabi = data?.filter(item => item.thirdLavelCategory == "mens_kurta");
-  const womenDress = data?.filter(item => item.thirdLavelCategory == "women_dress");
-  const tops = data?.filter(item => item.thirdLavelCategory == "top");
-  const womenJeans = data?.filter(item => item.thirdLavelCategory == "women_jeans");
-  const lenghaCholi = data?.filter(item => item.thirdLavelCategory == "lengha_choli");
+  const shirt = data?.filter(item => item?.thirdLavelCategory == "shirt");
+  const jeans = data?.filter(item => item?.thirdLavelCategory == "men_jeans");
+  const punjabi = data?.filter(item => item?.thirdLavelCategory == "mens_kurta");
+  const womenDress = data?.filter(item => item?.thirdLavelCategory == "women_dress");
+  const tops = data?.filter(item => item?.thirdLavelCategory == "top");
+  const womenJeans = data?.filter(item => item?.thirdLavelCategory == "women_jeans");
+  const lenghaCholi = data?.filter(item => item?.thirdLavelCategory == "lengha_choli");
 
 
   if (isLoading) {
@@ -393,4 +393,3 @@ export default function Products() {
     </div>
   )
 }
-//a=3?3

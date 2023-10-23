@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../provider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import { usePostUserMutation } from '../../redux/api/usersApi';
+import Loader from '../Loader/Loader';
 
 function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { googleLogin, loginUser } = useContext(AuthContext)
-
+    const [postUser, { isLoading, }] = usePostUserMutation()
     const location = useLocation();
     const from = location?.state?.from?.pathname || "/";
 
@@ -15,11 +17,20 @@ function Login() {
 
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    // function for scroll from top
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
 
-
+if(isLoading){
+    return <Loader/>
+}
 
     const onSubmit = (data) => {
-      
+
         // console.log(data);
         setError("");
 
@@ -34,9 +45,10 @@ function Login() {
                         title: 'Login success',
                         showConfirmButton: false,
                         timer: 1500
-                      })
-                   
+                    })
+
                     navigate(from, { replace: true });
+                    scrollToTop()
                 })
                 .catch((error) => {
                     console.log(error.message);
@@ -52,18 +64,11 @@ function Login() {
                 const user = result.user;
                 console.log(user);
                 const savedUser = { name: user.displayName, email: user.email, image: user.photoURL, role: 'student' }
-                fetch("https://server-nine-theta-40.vercel.app/users", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(savedUser)
-                })
-                    .then(res => res.json())
-                    .then(() => {
-
-                    })
+                postUser(savedUser)
 
 
                 navigate(from, { replace: true });
+                scrollToTop()
             })
             .catch((error) => console.log(error.message));
     };

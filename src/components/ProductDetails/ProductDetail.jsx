@@ -75,6 +75,7 @@ const ProductDetail = () => {
     const similiarProducts= items.filter(item=>item?.thirdLavelCategory==data?.thirdLavelCategory)
     // console.log(data)
     const [selectedSize, setSelectedSize] = useState(product.sizes[2])
+    console.log(selectedSize)
     if (isLoading) {
         return <Loader />
     }
@@ -224,7 +225,7 @@ const ProductDetail = () => {
 
                                 <Button
                                     variant='contained' sx={{ py: "1rem", px: "2rem", bgcolor: 'purple', width: "100%", my: "20px" }}
-                                    type="submit"
+                                  
 
                                 >
                                     Add to Cart

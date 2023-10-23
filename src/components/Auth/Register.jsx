@@ -5,6 +5,8 @@ import { updateProfile } from 'firebase/auth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../provider/AuthProvider';
+import { usePostUserMutation } from '../../redux/api/usersApi';
+import Loader from '../Loader/Loader';
 
 function Register() {
     const methods = useForm();
@@ -15,23 +17,22 @@ function Register() {
     const from = location?.state?.from?.pathname || "/";
     const navigate = useNavigate();
     const [error, setError] = useState("");
+    const [postUser, { isLoading, }] = usePostUserMutation()
+
+    // function for scroll from top
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
+
     const onSubmit = (data) => {
 
         if (data.password.length < 6) {
             setError('Password is too short; it should be at least 6 characters');
             return;
         }
-
-        if (!/[A-Z]/.test(data.password)) {
-            setError('Password must contain at least one capital letter');
-            return;
-        }
-
-        if (!/[!@#$%^&*]/.test(data.password)) {
-            setError('Password must contain at least one special character (!@#$%^&*)');
-            return;
-        }
-
 
         if ((data.name, data.email, data.password)) {
             registerUser(data.email, data.password)
@@ -41,26 +42,20 @@ function Register() {
                         photoURL: data.photoURL,
                     })
                         .then(() => {
-                            const savedUser = { email: data.email, name: data.name, image: data.photoURL,role:'student' }
+                            const savedUser = { email: data.email, name: data.name, image: data.photoURL, role: 'customer' }
+                            postUser(savedUser)
+                            if (isLoading) {
+                                return <Loader />
+                            }
 
-                            fetch(`https://server-nine-theta-40.vercel.app/users`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(savedUser)
+                            Swal.fire({
+                                position: 'top-center',
+                                icon: 'success',
+                                title: 'Your Create successfully',
+                                showConfirmButton: false,
+                                timer: 1500
                             })
-                                .then(res => res.json())
-                                .then(data => {
-                                    console.log(data);
-                                    Swal.fire({
-                                        position: 'top-center',
-                                        icon: 'success',
-                                        title: 'Your Create successfully',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                      })
-                                    // navigate("/")
-                                    // alert('user updated successfully and saved successfully')
-                                })
+
 
                         })
                         .catch((error) => {
@@ -69,7 +64,8 @@ function Register() {
                         });
 
                     console.log(result.user);
-                    navigate("/login");
+                    navigate(navigate(from, { replace: true }));
+                    scrollToTop();
 
                 })
                 .catch((err) => {
@@ -89,19 +85,11 @@ function Register() {
             .then((result) => {
                 const user = result.user;
                 console.log(user);
-                const savedUser = { name: user.displayName, email: user.email, image: user.photoURL,role:'student' }
-                fetch("https://server-nine-theta-40.vercel.app/users", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(savedUser)
-                })
-                    .then(res => res.json())
-                    .then(() => {
-
-                    })
-
+                const savedUser = { name: user.displayName, email: user.email, image: user.photoURL, role: 'student' }
+                postUser(savedUser)
 
                 navigate(from, { replace: true });
+                scrollToTop()
             })
             .catch((error) => console.log(error.message));
     };
