@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import CartItem from './CartItem'
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { useGetCartByEmailQuery,} from '../../redux/api/cartApi'
+import { AuthContext } from '../../provider/AuthProvider'
+import Loader from '../Loader/Loader'
 
 const Cart = () => {
+    const { user } = useContext(AuthContext)
+    const { data: cartItem, isLoading, } = useGetCartByEmailQuery(user?.email)
+    // console.log(cartItem)
+    
+    if (isLoading) {
+        return <Loader />
+    }
     return (
         <div className='container mx-auto mt-10'>
             <div className='lg:grid grid-cols-3 lg:px-16 relative'>
                 <div className='col-span-2 space-y-5'>
                     {
-                        [1, 1, 1, 1, 1, 1, 1, 1].map((item, index) => <CartItem key={index} />)
+                        cartItem?.map((item, index) => <CartItem key={index} item={item} />
+                        )
                     }
 
                 </div>
@@ -19,7 +30,7 @@ const Cart = () => {
                         <hr />
                         <div className='font-semibold text-black flex items-center justify-between space-y-5'>
                             <p>Price</p>
-                            <p className='text-green-600'>$ 576</p>
+                            <p className='text-green-600'>$ 555</p>
                         </div>
                         <div className='font-semibold text-black flex items-center justify-between space-y-5'>
                             <p>Discount</p>
@@ -35,7 +46,7 @@ const Cart = () => {
                             <p className='text-green-600'>$ 576</p>
                         </div>
                         <Link to="/checkout?step=2">
-                        <Button variant='contained' sx={{ bgcolor: "purple", py: ".8rem", my: ".7rem" }} className='w-full'>Check Out</Button>
+                            <Button variant='contained' sx={{ bgcolor: "purple", py: ".8rem", my: ".7rem" }} className='w-full'>Check Out</Button>
                         </Link>
                     </div>
 

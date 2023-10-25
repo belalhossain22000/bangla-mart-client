@@ -78,7 +78,7 @@ const ProductDetail = () => {
 
     const { data, isLoading } = useGetProductByIdQuery(_id)
     console.log(data)
-    const [postCarts, { isLoading: loading, }] = usePostCartsMutation()
+    const [postCarts, { isLoading: loading,}] = usePostCartsMutation()
     // loader
     if (isLoading) {
         return <Loader />
@@ -91,12 +91,14 @@ const ProductDetail = () => {
         quantity: 1,
         selectedSize: selectedSize,
         userEmail: user?.email,
+        
     }
 
     const addToCart = (e) => {
         e.preventDefault();
         postCarts(cartItem)
-        // alert("added product")
+
+
 
     }
 

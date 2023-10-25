@@ -1,47 +1,51 @@
-
 import { baseApi } from "./baseApi";
 
 export const taskApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    //get products
+    // // get products
     // getCart: builder.query({
-    //   query: () => "/getProducts",
-    //   providesTags: ["products"],
+    //   query: () => "/getUserCart/",
+    //   providesTags: ["carts"],
     // }),
     //get task by id
-    // getProductById: builder.query({
-    //   query: (_id) => `/getProduct/${_id}`,
-    // }),
+    getCartByEmail: builder.query({
+      query: (email) => `/getUserCart/${email}`,
+      providesTags: ["carts"],
+    }),
 
     // post task
     postCarts: builder.mutation({
       query: (data) => ({
-        url: "/addCart",
-        method: "POST",
+        url: `/updateUserCart/${data?.userEmail}`,
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: ["carts"],
     }),
-    // update task
-    // updateTasks: builder.mutation({
-    //   query: ({ data, id }) => ({
-    //     url: `/updateTask/${id}`,
-    //     method: "PUT",
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ["task"],
-    // }),
-    // delete task
-    // deleteTasks: builder.mutation({
-    //   query: (id) => ({
-    //     url: `/deleteTask/${id}`,
-    //     method: "DELETE",
-    //   }),
-    //   invalidatesTags: ["task"],
-    // }),
+    // update product quantity
+    updateProductQuantity: builder.mutation({
+      query: (variables) => ({
+        url: `/updateCartQuantity/${variables?.email}`,
+        method: "PUT",
+        body: variables,
+      }),
+      invalidatesTags: ["carts"],
+    }),
+    // delete cart
+    deleteCartItem: builder.mutation({
+      query: (_id) => ({
+        url: `/remove/${_id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["carts"],
+    }),
   }),
 });
 
 export const {
-  usePostCartsMutation
+  usePostCartsMutation,
+  useGetCartByEmailQuery,
+  useGetCartQuery,
+  useDeleteCartItemMutation,
+  useUpdateProductQuantityMutation,
 } = taskApi;

@@ -3,8 +3,9 @@ import { Fragment, useContext, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Avatar, Menu, MenuItem } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../provider/AuthProvider'
+import { useGetCartByEmailQuery } from '../../redux/api/cartApi'
 
 
 const navigation = {
@@ -139,12 +140,14 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, logOut } = useContext(AuthContext);
-
+  const {data:cartItem,}= useGetCartByEmailQuery(user?.email)
+const navigate=useNavigate()
   // loguot 
   const handleLogOut = () => {
     console.log("clicked");
     logOut()
       .then(() => {
+        navigate("/")
         console.log("User logged out");
       })
       .catch((error) => console.log(error.message));
@@ -478,7 +481,7 @@ const Navbar = () => {
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartItem?.length}</span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
                 </div>

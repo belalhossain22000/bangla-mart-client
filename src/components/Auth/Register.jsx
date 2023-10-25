@@ -42,7 +42,7 @@ function Register() {
                         photoURL: data.photoURL,
                     })
                         .then(() => {
-                            const savedUser = { email: data.email, name: data.name, image: data.photoURL, role: 'customer' }
+                            const savedUser = { email: data.email, name: data.name, image: data.photoURL, role: 'customer',cart:[] }
                             postUser(savedUser)
                             if (isLoading) {
                                 return <Loader />
