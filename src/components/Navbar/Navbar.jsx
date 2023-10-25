@@ -6,6 +6,7 @@ import { Avatar, Menu, MenuItem } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../provider/AuthProvider'
 import { useGetCartByEmailQuery } from '../../redux/api/cartApi'
+import Loader from '../Loader/Loader'
 
 
 const navigation = {
@@ -140,7 +141,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, logOut } = useContext(AuthContext);
-  const {data:cartItem,}= useGetCartByEmailQuery(user?.email)
+  const {data:cartItem,isLoading,}= useGetCartByEmailQuery(user?.email)
 const navigate=useNavigate()
   // loguot 
   const handleLogOut = () => {
@@ -161,6 +162,9 @@ const navigate=useNavigate()
   const handleClose = () => {
     setIsMenuOpen(false);
   };
+  if(isLoading){
+    return <Loader/>
+  }
 
   return (
     <div className="bg-white relative ">
@@ -302,7 +306,7 @@ const navigate=useNavigate()
       {/* desktop menu */}
       <header className="relative bg-white  ">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
+          Get free delivery on orders over $1000
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -476,7 +480,8 @@ const navigate=useNavigate()
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <Link to="/cart" className="group -m-2 flex items-center p-2">
+
+                  <Link to={user?"/cart":"/login"} className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"

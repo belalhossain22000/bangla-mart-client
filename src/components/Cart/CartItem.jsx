@@ -12,25 +12,24 @@ const CartItem = ({ item }) => {
     const [updateProductQuantity,] = useUpdateProductQuantityMutation()
 
     const handleUpdateProductQuantity = (productId, changeType) => {
-       
-            const variables = {
-                productId: productId,
-                change: changeType,
-                email: user?.email
-            }
 
+        const variables = {
+            productId: productId,
+            change: changeType,
+            email: user?.email
+        }
 
-            updateProductQuantity(variables)
-
-
-        
+        updateProductQuantity(variables)
     };
 
 
     const handleCartItemDelete = (_id) => {
-        console.log(_id)
-        deleteCartItem(_id)
+        const itemDetails = { email: user.email, _id }
+
+        deleteCartItem(itemDetails)
     }
+
+   
     return (
         <div className="p-5 shadow-lg rounded-md border">
             <div className="flex items-center">

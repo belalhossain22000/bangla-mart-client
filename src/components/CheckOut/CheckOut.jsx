@@ -8,16 +8,24 @@ import { useLocation } from 'react-router-dom';
 import AddressForm from './AddressForm';
 import OrderSummery from './OrderSummery';
 import Payment from './Payment';
+import { AuthContext } from '../../provider/AuthProvider';
+import { useContext } from 'react';
+import { useGetCartByEmailQuery } from '../../redux/api/cartApi';
+import Loader from '../Loader/Loader';
 
 const steps = ['Login', 'Address', 'Order summery', 'Payment'];
 const CheckOut = () => {
     // const [activeStep, setActiveStep] = React.useState(0);
-
-
+    const { user } = useContext(AuthContext)
+    const { data: cartItem, isLoading, } = useGetCartByEmailQuery(user?.email)
+    if (isLoading) {
+        <Loader />
+    }
+    console.log(cartItem)
     const location = useLocation()
     const querySearch = new URLSearchParams(location.search)
     const step = querySearch.get("step")
-    
+
     return (
         <div className='container mx-auto my-10'>
             <Box sx={{ width: '100%' }}>

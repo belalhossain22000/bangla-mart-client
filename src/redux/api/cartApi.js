@@ -33,8 +33,8 @@ export const taskApi = baseApi.injectEndpoints({
     }),
     // delete cart
     deleteCartItem: builder.mutation({
-      query: (_id) => ({
-        url: `/remove/${_id}`,
+      query: (itemDetails) => ({
+        url: `/removeFromCart/${itemDetails.email}/${itemDetails._id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["carts"],

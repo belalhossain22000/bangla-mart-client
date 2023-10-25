@@ -251,7 +251,7 @@ const ProductDetail = () => {
                                     onClick={addToCart}
                                     variant='contained' sx={{ py: "1rem", px: "2rem", bgcolor: 'purple', width: "100%", my: "20px" }}
                                 >
-                                    {loading ? "Adding" : " Add to Cart"}
+                                    {loading ? "Adding to Cart" : " Add to Cart"}
 
                                 </Button>
                             </form>
