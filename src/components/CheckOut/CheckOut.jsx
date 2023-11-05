@@ -17,11 +17,11 @@ const steps = ['Login', 'Address', 'Order summery', 'Payment'];
 const CheckOut = () => {
     // const [activeStep, setActiveStep] = React.useState(0);
     const { user } = useContext(AuthContext)
-    const { data: cartItem, isLoading, } = useGetCartByEmailQuery(user?.email)
+    const {  isLoading, } = useGetCartByEmailQuery(user?.email)
     if (isLoading) {
         <Loader />
     }
-    console.log(cartItem)
+    // console.log(cartItem)
     const location = useLocation()
     const querySearch = new URLSearchParams(location.search)
     const step = querySearch.get("step")

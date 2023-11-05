@@ -1,12 +1,19 @@
 import { Box, Button, Grid, TextField } from '@mui/material'
 import React from 'react'
 import AddressCard from './AddressCard'
-import { Link } from 'react-router-dom'
+import { useUpdateUserAddressByEmailMutation } from '../../redux/api/usersApi'
+import { useContext } from 'react'
+import { AuthContext } from '../../provider/AuthProvider'
+import { useNavigate } from 'react-router-dom'
 
 const AddressForm = () => {
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const [updateUserAddressByEmail, { isLoading }] = useUpdateUserAddressByEmailMutation()
+
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     const address = {
       firstName: data.get("fastName"),
       lastName: data.get("lastName"),
@@ -14,11 +21,12 @@ const AddressForm = () => {
       city: data.get("city"),
       village: data.get("village"),
       postCode: data.get("postCode"),
-      phoneNumber: data.get("phonNumber")
-
-    }
-    console.log('first', address)
-  }
+      phoneNumber: data.get("phoneNumber") 
+    };
+    updateUserAddressByEmail({ address, email: user?.email })
+    console.log('address', address);
+    navigate("/checkout?step=3")
+  };
   return (
     <div className='py-16 container mx-auto'>
       <Grid container spacing={4}>
@@ -99,16 +107,16 @@ const AddressForm = () => {
                   <TextField
                     required
                     id='phoneNumber'
-                    name="phonNumber"
+                    name="phoneNumber"
                     label='Phone Number'
                     fullWidth
                     autoComplete='given Name'
                   />
                 </Grid>
                 <Grid item xs={12} md={6} >
-                  <Link to='/checkout?step=3'>
-                  <Button sx={{ bgcolor: "purple", mt: 2 }} variant='contained' size='large' type='submit'>Deliver Here </Button>
-                  </Link>
+
+                  <Button sx={{ bgcolor: "purple", mt: 2 }} variant='contained' size='large' type='submit'>{isLoading ? "Updating Address" : "Deliver Here"} </Button>
+
                 </Grid>
               </Grid>
             </form>
