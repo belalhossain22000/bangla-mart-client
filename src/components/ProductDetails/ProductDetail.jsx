@@ -10,6 +10,8 @@ import { useParams } from 'react-router-dom'
 import Loader from '../Loader/Loader'
 import { usePostCartsMutation } from '../../redux/api/cartApi'
 import { AuthContext } from '../../provider/AuthProvider'
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -93,17 +95,20 @@ const ProductDetail = () => {
         userEmail: user?.email,
         
     }
-
+    const notify = () => toast('Please Login First');
     const addToCart = (e) => {
         e.preventDefault();
+        if(!user){
+            notify()
+            return
+        }
         postCarts(cartItem)
-
-
 
     }
 
     return (
         <div className="bg-white container mx-auto">
+              <Toaster />
             <div className="pt-6">
                 <nav aria-label="Breadcrumb">
                     <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
